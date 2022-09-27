@@ -1,0 +1,74 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html class="no-js" lang="zxx">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>News  HTML-5 Template </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/css/slicknav.css">
+    <link rel="stylesheet" href="~/Content/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="~/Content/css/themify-icons.css">
+    <link rel="stylesheet" href="~/Content/css/slick.css">
+    <link rel="stylesheet" href="~/Content/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <link href="~/Content/css/Site.css" rel="stylesheet" />
+
+    <!--Slider CSS-->
+    <link rel="stylesheet" href="~/Content/css/slider-style.css">
+
+    <!-- Calender CSS-->
+    <link href="~/Content/css/responsive-calendar.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    @Html.Partial("_Header")
+
+    <main>
+        @RenderBody()
+    </main>
+
+    @Html.Partial("_Footer")
+
+    <!-- JS here -->
+    <!-- Jquery, Popper, Bootstrap -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <script src="~/Scripts/slider-script.js"></script>
+
+ 
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    @*Calender*@
+    <script src="~/Scripts/responsive-calendar.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".responsive-calendar").responsiveCalendar({
+                time: '2020-07',
+                events: {
+                    "2020-08-04": { "number": 5, "url": "#" },
+                    "2020-08-06": { "number": 1, "url": "#" },
+                    "2020-08-21": { "number": 1, },
+                    "2020-08-29": {}
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

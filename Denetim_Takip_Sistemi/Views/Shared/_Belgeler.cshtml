@@ -1,0 +1,96 @@
+﻿@using Denetim_Takip_Sistemi.Models.EntityFramework
+@using Denetim_Takip_Sistemi.ViewModels
+@model  Tuple<kullanici, BelgeFormViewModel, belge_tipi, List<belge>>
+<div id="belge_modal" class="modal">
+    <div class="modal-content" style="width:80%;margin-left:10%;margin-right:10%">
+        <div class="modal-header">
+            <h3 class="modal-title">Belge Listesi</h3>
+            <button type="button" id="belge_liste_kapat" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+            <form>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Belge Adı: </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <label>Bitiş Tarihi: </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control" type="date">
+                    </div>
+                </div>
+                <br /><br />
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Belge Tipi: </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="belgeTipi">
+                    </div>
+                    <div class="col-md-2">
+                        <label>Durumu: </label>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control">
+                            <option> Aktif </option>
+                            <option> Pasif </option>
+                        </select>
+                    </div>
+                </div>
+                <hr />
+                <div class="row justify-content-center">
+                    <button type="submit" style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Search </button>
+                    <button id="belge_tanım_open" data-dismiss="modal" style="margin-left:10px;background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Yeni Belge Ekle </button>
+                </div>
+            </form>
+
+            <br /><br />
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table">
+
+                        <thead>
+                            <tr>
+                                <th scope="col">Düzenle</th>
+                                <th scope="col">Belge Adı</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach ( var Belge in Model.Item4) {
+
+                                <tr>
+                                    <th><button data-id="@Belge.belge_id" class="belge_tanım_düzenle_open" data-dismiss="modal" style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Düzenle </button></th>
+                                    <td>@Belge.belge_adi</td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var btn = document.getElementsByClassName("belge_liste");
+    var i;
+    for (i = 0; i < btn.length; i++) {
+        btn[i].onclick = function () {
+            $("#belge_modal").modal('show');
+        };
+    }
+    var close = document.getElementById("belge_liste_kapat");
+    close.onclick = function () {
+        $("#belge_modal").modal().hide();
+    }
+</script>

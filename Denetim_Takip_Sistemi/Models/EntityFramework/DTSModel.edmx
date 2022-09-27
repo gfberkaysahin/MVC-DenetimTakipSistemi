@@ -1,0 +1,560 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="denetimtakipsistemiVTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="belge">
+          <Key>
+            <PropertyRef Name="belge_id" />
+          </Key>
+          <Property Name="belge_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="belge_belge_tipi_id" Type="int" />
+          <Property Name="belge_adi" Type="varchar" MaxLength="50" />
+          <Property Name="belge_durum" Type="varchar" MaxLength="50" />
+          <Property Name="belge_eklyn_kllnc" Type="varchar" MaxLength="50" />
+          <Property Name="belge_gncllyn_kllnc" Type="varchar" MaxLength="50" />
+          <Property Name="belge_eklnm_trh" Type="date" />
+          <Property Name="belge_gncllnm_trh" Type="date" />
+          <Property Name="belge_acklm" Type="text" />
+        </EntityType>
+        <EntityType Name="belge_tipi">
+          <Key>
+            <PropertyRef Name="belge_tipi_id" />
+          </Key>
+          <Property Name="belge_tipi_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="belge_tipi_tipi" Type="nvarchar" MaxLength="50" />
+          <Property Name="belge_tipi_durum" Type="varchar" MaxLength="50" />
+          <Property Name="belge_tipi_acklm" Type="text" />
+          <Property Name="belge_tipi_eklyn_kllnc" Type="nvarchar" MaxLength="50" />
+          <Property Name="belge_tipi_gncllyn_kllnc" Type="nvarchar" MaxLength="50" />
+          <Property Name="belge_tipi_eklnm_trh" Type="date" />
+          <Property Name="belge_tipi_gncllnm_trh" Type="date" />
+        </EntityType>
+        <EntityType Name="bitis_tarihi">
+          <Key>
+            <PropertyRef Name="bitis_trh_id" />
+          </Key>
+          <Property Name="bitis_trh_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="bitis_trh_belge_id" Type="int" />
+          <Property Name="bitis_trh_bitis_trh" Type="date" />
+          <Property Name="bitis_trh_durum" Type="nchar" MaxLength="10" />
+          <Property Name="bitis_trh_acklm" Type="text" />
+          <Property Name="bitis_trh_eklyn_kllnc" Type="varchar" MaxLength="50" />
+          <Property Name="bitis_trh_gncllyn_kllnc" Type="varchar" MaxLength="50" />
+          <Property Name="bitis_trh_eklnm_trh" Type="date" />
+          <Property Name="bitis_trh_gncllnm_trh" Type="date" />
+        </EntityType>
+        <EntityType Name="denetim">
+          <Key>
+            <PropertyRef Name="dntm_id" />
+          </Key>
+          <Property Name="dntm_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dntm_belge_id" Type="int" />
+          <Property Name="dntm_adi" Type="varchar" MaxLength="50" />
+          <Property Name="dntm_bslngc_trh" Type="date" />
+          <Property Name="dntm_bitis_trh" Type="date" />
+          <Property Name="dntm_giren_kisi" Type="varchar" MaxLength="50" />
+          <Property Name="dntm_giren_prsnl" Type="varchar" MaxLength="50" />
+          <Property Name="dntm_bldrm_srs" Type="int" />
+          <Property Name="dntm_durum" Type="nchar" MaxLength="10" />
+          <Property Name="dntm_acklm" Type="text" />
+          <Property Name="dntm_eklyn_kllnc" Type="varchar" MaxLength="50" />
+          <Property Name="dntm_gncllyn_kllnc" Type="varchar" MaxLength="50" />
+          <Property Name="dntm_eklnm_trh" Type="date" />
+          <Property Name="dntm_gncllnm_trh" Type="date" />
+        </EntityType>
+        <EntityType Name="dosya_bilgisi">
+          <Key>
+            <PropertyRef Name="dosya_blgs_id" />
+          </Key>
+          <Property Name="dosya_blgs_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dosya_blgs_belge_id" Type="int" />
+          <Property Name="dosya_blgs_dosya" Type="xml" />
+          <Property Name="dosya_blgs_durum" Type="nchar" MaxLength="10" />
+          <Property Name="dosya_blgs_aciklama" Type="text" />
+          <Property Name="dosya_blgs_eklyn_kllnc" Type="varchar" MaxLength="50" />
+          <Property Name="dosya_blgs_gncllyn_kllnc" Type="varchar" MaxLength="50" />
+          <Property Name="dosya_blgs_eklnm_trh" Type="date" />
+          <Property Name="dosya_blgs_gncllnm_trh" Type="date" />
+        </EntityType>
+        <EntityType Name="kullanici">
+          <Key>
+            <PropertyRef Name="kllnc_id" />
+          </Key>
+          <Property Name="kllnc_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kllnc_kllncad" Type="varchar" MaxLength="50" />
+          <Property Name="kllnc_adi" Type="varchar" MaxLength="50" />
+          <Property Name="kllnc_kmlk_no" Type="varchar" MaxLength="11" />
+          <Property Name="kllnc_dgm_trh" Type="date" />
+          <Property Name="kllnc_epsta" Type="varchar" MaxLength="50" />
+          <Property Name="kllnc_cep_tel" Type="varchar" MaxLength="50" />
+          <Property Name="kllnc_rol" Type="varchar" MaxLength="50" />
+          <Property Name="kllnc_prl" Type="varchar" MaxLength="50" />
+          <Property Name="kllnc_resim" Type="image" />
+          <Property Name="kllnc_eklyn_kllnc" Type="varchar" MaxLength="50" />
+          <Property Name="kllnc_gnclln_kllnc" Type="varchar" MaxLength="50" />
+          <Property Name="kllnc_eklnm_trh" Type="date" />
+          <Property Name="kllnc_gncllnm_trh" Type="date" />
+          <Property Name="kllnc_pll_rst" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="nott">
+          <Key>
+            <PropertyRef Name="not_id" />
+          </Key>
+          <Property Name="not_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="not_belge_id" Type="int" />
+          <Property Name="not_konu" Type="varchar" MaxLength="50" />
+          <Property Name="not_durum" Type="nchar" MaxLength="10" />
+          <Property Name="not_acklm" Type="text" />
+          <Property Name="not_eklyn_kllnc" Type="varchar" MaxLength="50" />
+          <Property Name="not_gncllyn_kllnc" Type="varchar" MaxLength="50" />
+          <Property Name="not_eklnm_trh" Type="date" />
+          <Property Name="not_gncllnm_trh" Type="date" />
+        </EntityType>
+        <Association Name="FK_belge_belge_tipi">
+          <End Role="belge_tipi" Type="Self.belge_tipi" Multiplicity="0..1" />
+          <End Role="belge" Type="Self.belge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="belge_tipi">
+              <PropertyRef Name="belge_tipi_id" />
+            </Principal>
+            <Dependent Role="belge">
+              <PropertyRef Name="belge_belge_tipi_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bitis_tarihi_belge">
+          <End Role="belge" Type="Self.belge" Multiplicity="0..1" />
+          <End Role="bitis_tarihi" Type="Self.bitis_tarihi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="belge">
+              <PropertyRef Name="belge_id" />
+            </Principal>
+            <Dependent Role="bitis_tarihi">
+              <PropertyRef Name="bitis_trh_belge_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_denetim_belge">
+          <End Role="belge" Type="Self.belge" Multiplicity="0..1" />
+          <End Role="denetim" Type="Self.denetim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="belge">
+              <PropertyRef Name="belge_id" />
+            </Principal>
+            <Dependent Role="denetim">
+              <PropertyRef Name="dntm_belge_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dosya_bilgisi_belge">
+          <End Role="belge" Type="Self.belge" Multiplicity="0..1" />
+          <End Role="dosya_bilgisi" Type="Self.dosya_bilgisi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="belge">
+              <PropertyRef Name="belge_id" />
+            </Principal>
+            <Dependent Role="dosya_bilgisi">
+              <PropertyRef Name="dosya_blgs_belge_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_not_belge">
+          <End Role="belge" Type="Self.belge" Multiplicity="0..1" />
+          <End Role="nott" Type="Self.nott" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="belge">
+              <PropertyRef Name="belge_id" />
+            </Principal>
+            <Dependent Role="nott">
+              <PropertyRef Name="not_belge_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="denetimtakipsistemiVTModelStoreContainer">
+          <EntitySet Name="belge" EntityType="Self.belge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="belge_tipi" EntityType="Self.belge_tipi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bitis_tarihi" EntityType="Self.bitis_tarihi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="denetim" EntityType="Self.denetim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dosya_bilgisi" EntityType="Self.dosya_bilgisi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="kullanici" EntityType="Self.kullanici" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="nott" EntityType="Self.nott" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_belge_belge_tipi" Association="Self.FK_belge_belge_tipi">
+            <End Role="belge_tipi" EntitySet="belge_tipi" />
+            <End Role="belge" EntitySet="belge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bitis_tarihi_belge" Association="Self.FK_bitis_tarihi_belge">
+            <End Role="belge" EntitySet="belge" />
+            <End Role="bitis_tarihi" EntitySet="bitis_tarihi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_denetim_belge" Association="Self.FK_denetim_belge">
+            <End Role="belge" EntitySet="belge" />
+            <End Role="denetim" EntitySet="denetim" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dosya_bilgisi_belge" Association="Self.FK_dosya_bilgisi_belge">
+            <End Role="belge" EntitySet="belge" />
+            <End Role="dosya_bilgisi" EntitySet="dosya_bilgisi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_not_belge" Association="Self.FK_not_belge">
+            <End Role="belge" EntitySet="belge" />
+            <End Role="nott" EntitySet="nott" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="denetimtakipsistemiVTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="belge">
+          <Key>
+            <PropertyRef Name="belge_id" />
+          </Key>
+          <Property Name="belge_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="belge_belge_tipi_id" Type="Int32" />
+          <Property Name="belge_adi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="belge_durum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="belge_eklyn_kllnc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="belge_gncllyn_kllnc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="belge_eklnm_trh" Type="DateTime" Precision="0" />
+          <Property Name="belge_gncllnm_trh" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="belge_tipi" Relationship="Self.FK_belge_belge_tipi" FromRole="belge" ToRole="belge_tipi" />
+          <NavigationProperty Name="bitis_tarihi" Relationship="Self.FK_bitis_tarihi_belge" FromRole="belge" ToRole="bitis_tarihi" />
+          <NavigationProperty Name="denetim" Relationship="Self.FK_denetim_belge" FromRole="belge" ToRole="denetim" />
+          <NavigationProperty Name="dosya_bilgisi" Relationship="Self.FK_dosya_bilgisi_belge" FromRole="belge" ToRole="dosya_bilgisi" />
+          <NavigationProperty Name="nott" Relationship="Self.FK_not_belge" FromRole="belge" ToRole="nott" />
+          <Property Name="belge_acklm" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="belge_tipi">
+          <Key>
+            <PropertyRef Name="belge_tipi_id" />
+          </Key>
+          <Property Name="belge_tipi_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="belge_tipi_tipi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="belge_tipi_durum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="belge_tipi_acklm" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="belge_tipi_eklyn_kllnc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="belge_tipi_gncllyn_kllnc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="belge_tipi_eklnm_trh" Type="DateTime" Precision="0" />
+          <Property Name="belge_tipi_gncllnm_trh" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="belge" Relationship="Self.FK_belge_belge_tipi" FromRole="belge_tipi" ToRole="belge" />
+        </EntityType>
+        <EntityType Name="bitis_tarihi">
+          <Key>
+            <PropertyRef Name="bitis_trh_id" />
+          </Key>
+          <Property Name="bitis_trh_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="bitis_trh_belge_id" Type="Int32" />
+          <Property Name="bitis_trh_bitis_trh" Type="DateTime" Precision="0" />
+          <Property Name="bitis_trh_durum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="bitis_trh_acklm" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="bitis_trh_eklyn_kllnc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bitis_trh_gncllyn_kllnc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bitis_trh_eklnm_trh" Type="DateTime" Precision="0" />
+          <Property Name="bitis_trh_gncllnm_trh" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="belge" Relationship="Self.FK_bitis_tarihi_belge" FromRole="bitis_tarihi" ToRole="belge" />
+        </EntityType>
+        <EntityType Name="denetim">
+          <Key>
+            <PropertyRef Name="dntm_id" />
+          </Key>
+          <Property Name="dntm_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dntm_belge_id" Type="Int32" />
+          <Property Name="dntm_adi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dntm_bslngc_trh" Type="DateTime" Precision="0" />
+          <Property Name="dntm_bitis_trh" Type="DateTime" Precision="0" />
+          <Property Name="dntm_giren_kisi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dntm_giren_prsnl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dntm_bldrm_srs" Type="Int32" />
+          <Property Name="dntm_durum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="dntm_acklm" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="dntm_eklyn_kllnc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dntm_gncllyn_kllnc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dntm_eklnm_trh" Type="DateTime" Precision="0" />
+          <Property Name="dntm_gncllnm_trh" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="belge" Relationship="Self.FK_denetim_belge" FromRole="denetim" ToRole="belge" />
+        </EntityType>
+        <EntityType Name="dosya_bilgisi">
+          <Key>
+            <PropertyRef Name="dosya_blgs_id" />
+          </Key>
+          <Property Name="dosya_blgs_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dosya_blgs_belge_id" Type="Int32" />
+          <Property Name="dosya_blgs_dosya" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dosya_blgs_durum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="dosya_blgs_aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="dosya_blgs_eklyn_kllnc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dosya_blgs_gncllyn_kllnc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dosya_blgs_eklnm_trh" Type="DateTime" Precision="0" />
+          <Property Name="dosya_blgs_gncllnm_trh" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="belge" Relationship="Self.FK_dosya_bilgisi_belge" FromRole="dosya_bilgisi" ToRole="belge" />
+        </EntityType>
+        <EntityType Name="kullanici">
+          <Key>
+            <PropertyRef Name="kllnc_id" />
+          </Key>
+          <Property Name="kllnc_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kllnc_kllncad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kllnc_adi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kllnc_kmlk_no" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="kllnc_dgm_trh" Type="DateTime" Precision="0" />
+          <Property Name="kllnc_epsta" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kllnc_cep_tel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kllnc_rol" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kllnc_prl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kllnc_resim" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="kllnc_eklyn_kllnc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kllnc_gnclln_kllnc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kllnc_eklnm_trh" Type="DateTime" Precision="0" />
+          <Property Name="kllnc_gncllnm_trh" Type="DateTime" Precision="0" />
+          <Property Name="kllnc_pll_rst" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="nott">
+          <Key>
+            <PropertyRef Name="not_id" />
+          </Key>
+          <Property Name="not_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="not_belge_id" Type="Int32" />
+          <Property Name="not_konu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="not_durum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="not_acklm" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="not_eklyn_kllnc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="not_gncllyn_kllnc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="not_eklnm_trh" Type="DateTime" Precision="0" />
+          <Property Name="not_gncllnm_trh" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="belge" Relationship="Self.FK_not_belge" FromRole="nott" ToRole="belge" />
+        </EntityType>
+        <Association Name="FK_belge_belge_tipi">
+          <End Role="belge_tipi" Type="Self.belge_tipi" Multiplicity="0..1" />
+          <End Role="belge" Type="Self.belge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="belge_tipi">
+              <PropertyRef Name="belge_tipi_id" />
+            </Principal>
+            <Dependent Role="belge">
+              <PropertyRef Name="belge_belge_tipi_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bitis_tarihi_belge">
+          <End Role="belge" Type="Self.belge" Multiplicity="0..1" />
+          <End Role="bitis_tarihi" Type="Self.bitis_tarihi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="belge">
+              <PropertyRef Name="belge_id" />
+            </Principal>
+            <Dependent Role="bitis_tarihi">
+              <PropertyRef Name="bitis_trh_belge_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_denetim_belge">
+          <End Role="belge" Type="Self.belge" Multiplicity="0..1" />
+          <End Role="denetim" Type="Self.denetim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="belge">
+              <PropertyRef Name="belge_id" />
+            </Principal>
+            <Dependent Role="denetim">
+              <PropertyRef Name="dntm_belge_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dosya_bilgisi_belge">
+          <End Role="belge" Type="Self.belge" Multiplicity="0..1" />
+          <End Role="dosya_bilgisi" Type="Self.dosya_bilgisi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="belge">
+              <PropertyRef Name="belge_id" />
+            </Principal>
+            <Dependent Role="dosya_bilgisi">
+              <PropertyRef Name="dosya_blgs_belge_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_not_belge">
+          <End Role="belge" Type="Self.belge" Multiplicity="0..1" />
+          <End Role="nott" Type="Self.nott" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="belge">
+              <PropertyRef Name="belge_id" />
+            </Principal>
+            <Dependent Role="nott">
+              <PropertyRef Name="not_belge_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="denetimtakipsistemiVTEntities3" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="belge" EntityType="Self.belge" />
+          <EntitySet Name="belge_tipi" EntityType="Self.belge_tipi" />
+          <EntitySet Name="bitis_tarihi" EntityType="Self.bitis_tarihi" />
+          <EntitySet Name="denetim" EntityType="Self.denetim" />
+          <EntitySet Name="dosya_bilgisi" EntityType="Self.dosya_bilgisi" />
+          <EntitySet Name="kullanici" EntityType="Self.kullanici" />
+          <EntitySet Name="nott" EntityType="Self.nott" />
+          <AssociationSet Name="FK_belge_belge_tipi" Association="Self.FK_belge_belge_tipi">
+            <End Role="belge_tipi" EntitySet="belge_tipi" />
+            <End Role="belge" EntitySet="belge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bitis_tarihi_belge" Association="Self.FK_bitis_tarihi_belge">
+            <End Role="belge" EntitySet="belge" />
+            <End Role="bitis_tarihi" EntitySet="bitis_tarihi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_denetim_belge" Association="Self.FK_denetim_belge">
+            <End Role="belge" EntitySet="belge" />
+            <End Role="denetim" EntitySet="denetim" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dosya_bilgisi_belge" Association="Self.FK_dosya_bilgisi_belge">
+            <End Role="belge" EntitySet="belge" />
+            <End Role="dosya_bilgisi" EntitySet="dosya_bilgisi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_not_belge" Association="Self.FK_not_belge">
+            <End Role="belge" EntitySet="belge" />
+            <End Role="nott" EntitySet="nott" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="denetimtakipsistemiVTModelStoreContainer" CdmEntityContainer="denetimtakipsistemiVTEntities3">
+          <EntitySetMapping Name="belge">
+            <EntityTypeMapping TypeName="denetimtakipsistemiVTModel.belge">
+              <MappingFragment StoreEntitySet="belge">
+                <ScalarProperty Name="belge_acklm" ColumnName="belge_acklm" />
+                <ScalarProperty Name="belge_id" ColumnName="belge_id" />
+                <ScalarProperty Name="belge_belge_tipi_id" ColumnName="belge_belge_tipi_id" />
+                <ScalarProperty Name="belge_adi" ColumnName="belge_adi" />
+                <ScalarProperty Name="belge_durum" ColumnName="belge_durum" />
+                <ScalarProperty Name="belge_eklyn_kllnc" ColumnName="belge_eklyn_kllnc" />
+                <ScalarProperty Name="belge_gncllyn_kllnc" ColumnName="belge_gncllyn_kllnc" />
+                <ScalarProperty Name="belge_eklnm_trh" ColumnName="belge_eklnm_trh" />
+                <ScalarProperty Name="belge_gncllnm_trh" ColumnName="belge_gncllnm_trh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="belge_tipi">
+            <EntityTypeMapping TypeName="denetimtakipsistemiVTModel.belge_tipi">
+              <MappingFragment StoreEntitySet="belge_tipi">
+                <ScalarProperty Name="belge_tipi_id" ColumnName="belge_tipi_id" />
+                <ScalarProperty Name="belge_tipi_tipi" ColumnName="belge_tipi_tipi" />
+                <ScalarProperty Name="belge_tipi_durum" ColumnName="belge_tipi_durum" />
+                <ScalarProperty Name="belge_tipi_acklm" ColumnName="belge_tipi_acklm" />
+                <ScalarProperty Name="belge_tipi_eklyn_kllnc" ColumnName="belge_tipi_eklyn_kllnc" />
+                <ScalarProperty Name="belge_tipi_gncllyn_kllnc" ColumnName="belge_tipi_gncllyn_kllnc" />
+                <ScalarProperty Name="belge_tipi_eklnm_trh" ColumnName="belge_tipi_eklnm_trh" />
+                <ScalarProperty Name="belge_tipi_gncllnm_trh" ColumnName="belge_tipi_gncllnm_trh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bitis_tarihi">
+            <EntityTypeMapping TypeName="denetimtakipsistemiVTModel.bitis_tarihi">
+              <MappingFragment StoreEntitySet="bitis_tarihi">
+                <ScalarProperty Name="bitis_trh_id" ColumnName="bitis_trh_id" />
+                <ScalarProperty Name="bitis_trh_belge_id" ColumnName="bitis_trh_belge_id" />
+                <ScalarProperty Name="bitis_trh_bitis_trh" ColumnName="bitis_trh_bitis_trh" />
+                <ScalarProperty Name="bitis_trh_durum" ColumnName="bitis_trh_durum" />
+                <ScalarProperty Name="bitis_trh_acklm" ColumnName="bitis_trh_acklm" />
+                <ScalarProperty Name="bitis_trh_eklyn_kllnc" ColumnName="bitis_trh_eklyn_kllnc" />
+                <ScalarProperty Name="bitis_trh_gncllyn_kllnc" ColumnName="bitis_trh_gncllyn_kllnc" />
+                <ScalarProperty Name="bitis_trh_eklnm_trh" ColumnName="bitis_trh_eklnm_trh" />
+                <ScalarProperty Name="bitis_trh_gncllnm_trh" ColumnName="bitis_trh_gncllnm_trh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="denetim">
+            <EntityTypeMapping TypeName="denetimtakipsistemiVTModel.denetim">
+              <MappingFragment StoreEntitySet="denetim">
+                <ScalarProperty Name="dntm_id" ColumnName="dntm_id" />
+                <ScalarProperty Name="dntm_belge_id" ColumnName="dntm_belge_id" />
+                <ScalarProperty Name="dntm_adi" ColumnName="dntm_adi" />
+                <ScalarProperty Name="dntm_bslngc_trh" ColumnName="dntm_bslngc_trh" />
+                <ScalarProperty Name="dntm_bitis_trh" ColumnName="dntm_bitis_trh" />
+                <ScalarProperty Name="dntm_giren_kisi" ColumnName="dntm_giren_kisi" />
+                <ScalarProperty Name="dntm_giren_prsnl" ColumnName="dntm_giren_prsnl" />
+                <ScalarProperty Name="dntm_bldrm_srs" ColumnName="dntm_bldrm_srs" />
+                <ScalarProperty Name="dntm_durum" ColumnName="dntm_durum" />
+                <ScalarProperty Name="dntm_acklm" ColumnName="dntm_acklm" />
+                <ScalarProperty Name="dntm_eklyn_kllnc" ColumnName="dntm_eklyn_kllnc" />
+                <ScalarProperty Name="dntm_gncllyn_kllnc" ColumnName="dntm_gncllyn_kllnc" />
+                <ScalarProperty Name="dntm_eklnm_trh" ColumnName="dntm_eklnm_trh" />
+                <ScalarProperty Name="dntm_gncllnm_trh" ColumnName="dntm_gncllnm_trh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dosya_bilgisi">
+            <EntityTypeMapping TypeName="denetimtakipsistemiVTModel.dosya_bilgisi">
+              <MappingFragment StoreEntitySet="dosya_bilgisi">
+                <ScalarProperty Name="dosya_blgs_id" ColumnName="dosya_blgs_id" />
+                <ScalarProperty Name="dosya_blgs_belge_id" ColumnName="dosya_blgs_belge_id" />
+                <ScalarProperty Name="dosya_blgs_dosya" ColumnName="dosya_blgs_dosya" />
+                <ScalarProperty Name="dosya_blgs_durum" ColumnName="dosya_blgs_durum" />
+                <ScalarProperty Name="dosya_blgs_aciklama" ColumnName="dosya_blgs_aciklama" />
+                <ScalarProperty Name="dosya_blgs_eklyn_kllnc" ColumnName="dosya_blgs_eklyn_kllnc" />
+                <ScalarProperty Name="dosya_blgs_gncllyn_kllnc" ColumnName="dosya_blgs_gncllyn_kllnc" />
+                <ScalarProperty Name="dosya_blgs_eklnm_trh" ColumnName="dosya_blgs_eklnm_trh" />
+                <ScalarProperty Name="dosya_blgs_gncllnm_trh" ColumnName="dosya_blgs_gncllnm_trh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kullanici">
+            <EntityTypeMapping TypeName="denetimtakipsistemiVTModel.kullanici">
+              <MappingFragment StoreEntitySet="kullanici">
+                <ScalarProperty Name="kllnc_pll_rst" ColumnName="kllnc_pll_rst" />
+                <ScalarProperty Name="kllnc_id" ColumnName="kllnc_id" />
+                <ScalarProperty Name="kllnc_kllncad" ColumnName="kllnc_kllncad" />
+                <ScalarProperty Name="kllnc_adi" ColumnName="kllnc_adi" />
+                <ScalarProperty Name="kllnc_kmlk_no" ColumnName="kllnc_kmlk_no" />
+                <ScalarProperty Name="kllnc_dgm_trh" ColumnName="kllnc_dgm_trh" />
+                <ScalarProperty Name="kllnc_epsta" ColumnName="kllnc_epsta" />
+                <ScalarProperty Name="kllnc_cep_tel" ColumnName="kllnc_cep_tel" />
+                <ScalarProperty Name="kllnc_rol" ColumnName="kllnc_rol" />
+                <ScalarProperty Name="kllnc_prl" ColumnName="kllnc_prl" />
+                <ScalarProperty Name="kllnc_resim" ColumnName="kllnc_resim" />
+                <ScalarProperty Name="kllnc_eklyn_kllnc" ColumnName="kllnc_eklyn_kllnc" />
+                <ScalarProperty Name="kllnc_gnclln_kllnc" ColumnName="kllnc_gnclln_kllnc" />
+                <ScalarProperty Name="kllnc_eklnm_trh" ColumnName="kllnc_eklnm_trh" />
+                <ScalarProperty Name="kllnc_gncllnm_trh" ColumnName="kllnc_gncllnm_trh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="nott">
+            <EntityTypeMapping TypeName="denetimtakipsistemiVTModel.nott">
+              <MappingFragment StoreEntitySet="nott">
+                <ScalarProperty Name="not_id" ColumnName="not_id" />
+                <ScalarProperty Name="not_belge_id" ColumnName="not_belge_id" />
+                <ScalarProperty Name="not_konu" ColumnName="not_konu" />
+                <ScalarProperty Name="not_durum" ColumnName="not_durum" />
+                <ScalarProperty Name="not_acklm" ColumnName="not_acklm" />
+                <ScalarProperty Name="not_eklyn_kllnc" ColumnName="not_eklyn_kllnc" />
+                <ScalarProperty Name="not_gncllyn_kllnc" ColumnName="not_gncllyn_kllnc" />
+                <ScalarProperty Name="not_eklnm_trh" ColumnName="not_eklnm_trh" />
+                <ScalarProperty Name="not_gncllnm_trh" ColumnName="not_gncllnm_trh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

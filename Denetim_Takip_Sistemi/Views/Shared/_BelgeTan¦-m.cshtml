@@ -1,0 +1,509 @@
+﻿@using Denetim_Takip_Sistemi.Models.EntityFramework
+@using Denetim_Takip_Sistemi.ViewModels
+@model  Tuple<kullanici, BelgeFormViewModel, belge_tipi, List<belge>>
+
+<div id="belge_tanım_modal" class="modal" style="overflow:auto">
+    <div class="modal-content" style="width:80%;margin-left:10%;margin-right:10%">
+        <div class="modal-header">
+            <h2 class="modal-title">Belge Tanım </h2><br />
+            <button type="button" id="belge_tanım_kapat" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <hr />
+        </div>
+        <div class="modal-body">
+            <p style="font-size:small">Bu Belgeye Ait Son Denetim Tarihi: </p><hr />
+
+            <ul class="nav nav-tabs">
+                <li><a class="active show" data-toggle="tab" href="#belge_bilgileri_tab" style="color:#000000;margin:10px;"> Belge Bilgileri |</a></li>
+                <li><a data-toggle="tab" href="#dosya_tab" style="color:#000000;margin:10px;"> Dosya Bilgileri |</a></li>
+                <li><a data-toggle="tab" href="#bitis_tab" style="color:#000000;margin:10px;"> Bitiş Tarihleri |</a></li>
+                <li><a data-toggle="tab" href="#denetimler_tab" style="color:#000000;margin:10px;"> Denetimler |</a></li>
+                <li><a data-toggle="tab" href="#notlar_tab" style="color:#000000;margin:10px"> Notlar </a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="belge_bilgileri_tab" class="tab-pane active show">
+                    <br />
+                    @using (Ajax.BeginForm("BelgeTanimKaydet", "Home", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "BelgeMesaj" }, new { @id = "BelgeForm", autocomplete = "off" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Belge Adı: </label>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.Item2.Belge.belge_adi, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Durumu: </label>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(m => m.Item2.Belge.belge_durum, (new List<SelectListItem>() { new SelectListItem { Text = "Aktif", Selected = false, Value = "Aktif" }, new SelectListItem { Text = "Pasif", Selected = true, Value = "Pasif" } }), new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Açıklama: </label>
+                            </div>
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(m => m.Item2.Belge.belge_acklm, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Belge Adı: </label>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(m => m.Item2.Belge.belge_belge_tipi_id, new SelectList(Model.Item2.Belge_Tipi, "belge_tipi_id", "belge_tipi_tipi"), "Belge Tipi Seçiniz", new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Ekleme:</label>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.HiddenFor(m => m.Item2.Belge.belge_eklyn_kllnc)
+                                @Html.TextBoxFor(m => m.Item2.Belge.belge_eklnm_trh, "{0:yyyy-MM-dd}", new { @type = "date", @hidden = "hidden" })
+                                <input type="text" class="form-control" id="BelgeEklenme" readonly />
+                            </div>
+                            <div class="col-md-2">
+                                <label>Güncelleme:</label>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.Item2.Belge.belge_gncllnm_trh, "{0:yyyy-MM-dd}", new { @type = "date", @hidden = "hidden" })
+                                @Html.HiddenFor(m => m.Item2.Belge.belge_gncllyn_kllnc)
+                                <input type="text" class="form-control" id="BelgeGüncellenme" readonly />
+                            </div>
+                        </div>
+
+                        <br /> <br /> <hr />
+                        @Html.HiddenFor(m => m.Item2.Belge.belge_id)
+                        <div class="row justify-content-center">
+                            <button type="submit" style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Kaydet </button>
+                            <button type="button" style="margin-left:10px;background-color:red;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:red"> Sil</button>
+                        </div>
+                        <hr />
+                    }
+                    <div id="BelgeMesaj">
+
+                    </div>
+                </div>
+                <div id="dosya_tab" class="tab-pane">
+                    <br />
+                    @using (Ajax.BeginForm("DosyaKaydet", "Home", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "DosyaListe" }, new { @id = "DosyaForm", autocomplete = "off" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Dosya: </label>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.Item2.Dosya.dosya_blgs_dosya, new { @class = "form-control", type = "file" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>Durumu: </label>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(m => m.Item2.Dosya.dosya_blgs_durum, (new List<SelectListItem>() { new SelectListItem { Text = "Aktif", Selected = false, Value = "Aktif" }, new SelectListItem { Text = "Pasif", Selected = true, Value = "Pasif" } }), new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Açıklama: </label>
+                            </div>
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(m => m.Item2.Dosya.dosya_blgs_aciklama, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Ekleme:</label>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.HiddenFor(m => m.Item2.Dosya.dosya_blgs_eklyn_kllnc)
+                                @Html.TextBoxFor(m => m.Item2.Dosya.dosya_blgs_eklnm_trh, "{0:yyyy-MM-dd}", new { @type = "date", @hidden = "hidden" })
+                                <input type="text" class="form-control" id="DosyaEklenme" readonly />
+                            </div>
+                            <div class="col-md-2">
+                                <label>Güncelleme:</label>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.Item2.Dosya.dosya_blgs_gncllnm_trh, "{0:yyyy-MM-dd}", new { @type = "date", @hidden = "hidden" })
+                                @Html.HiddenFor(m => m.Item2.Dosya.dosya_blgs_gncllyn_kllnc)
+                                <input type="text" class="form-control" id="DosyaGüncellenme" readonly />
+                            </div>
+                        </div>
+
+                        @Html.HiddenFor(m => m.Item2.Dosya.dosya_blgs_belge_id)
+                        @Html.HiddenFor(m => m.Item2.Dosya.dosya_blgs_id)
+                        <hr />
+                        <div class="row justify-content-center">
+                            <button type="submit" style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Kaydet </button>
+                            <button type="button" style="margin-left:10px;background-color:red;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:red"> Sil</button>
+                        </div>
+                    }
+                    <hr />
+                    <div class="container">
+                        <div class="table-responsive" id="DosyaListe">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="bitis_tab" class="tab-pane">
+                    <form>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Bitiş Tarihi: </label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="date" class="form-control" id="bitis_tarihi" />
+                            </div>
+                            <div class="col-md-2">
+                                <label>Durumu: </label>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-control" readonly>
+                                    <option> Aktif </option>
+                                    <option> Pasif</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Açıklama: </label>
+                            </div>
+                            <div class="col-md-10">
+                                <textarea class="form-control" readonly> Türk Standardlarına Uygunluk Belgesi; Türk Standardı bulunan konularda, firmaların söz konusu ürünlerinin ilgili Türk Standardlarına uygunluğunu belirten ve akdedilen sözleşme ile TSE Markası kullanma hakkı veren, firma adına düzenlenen ve üzerlerinde TSE markası kullanılacak malların ticari markası, cinsi, sınıfı, tipi ve türünü belirten, geçerlilik süresi bir yıl  olan belgedir.</textarea>
+                            </div>
+                        </div>
+
+                        <br /> <hr />
+
+                        <button type="submit" style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Kaydet </button>
+                        <button style="margin-left:10px;background-color:red;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:red"> Sil</button>
+
+                        <hr />
+                        <h5 class="modal-title">Tarih Listesi </h5><br />
+                        <div class="container">
+                            <div class="table-responsive">
+                                <table class="table">
+
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Düzenle</th>
+                                            <th scope="col">Bitiş Tarihi</th>
+                                            <th scope="col">Durum</th>
+                                            <th scope="col">Kullanıcı</th>
+                                            <th scope="col">Ekleme Tarihi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th><button style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Düzenle </button></th>
+                                            <td>12.12.2020</td>
+                                            <td>Aktif</td>
+                                            <td>Furkan</td>
+                                            <td>10.10.2019</td>
+                                        </tr>
+                                        <tr>
+                                            <th><button style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Düzenle </button></th>
+                                            <td>20.11.2020</td>
+                                            <td>Aktif</td>
+                                            <td>Ayşe</td>
+                                            <td>10.10.2019</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div id="denetimler_tab" class="tab-pane">
+                    <form>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Denetim Adı: </label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="denetimAdi" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Denetim Tarihi: </label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="date" id="denetim_tarihi" name="date">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Denetim Bitiş Tarihi: </label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                <label>Denetmen: </label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="denetmenAdi" readonly>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Personel: </label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="personelAdi" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Durumu: </label>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-control" id="denetimDurumu" readonly>
+                                    <option> Aktif </option>
+                                    <option> Pasif</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Bildirim Süresi: </label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="number" class="form-control" id="bildirimSuresi" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Açıklama: </label>
+                            </div>
+                            <div class="col-md-4">
+                                <textarea class="form-control" readonly> Türk Standardlarına Uygunluk Belgesi; Türk Standardı bulunan konularda, firmaların söz konusu ürünlerinin ilgili Türk Standardlarına uygunluğunu belirten ve akdedilen sözleşme ile TSE Markası kullanma hakkı veren, firma adına düzenlenen ve üzerlerinde TSE markası kullanılacak malların ticari markası, cinsi, sınıfı, tipi ve türünü belirten, geçerlilik süresi bir yıl  olan belgedir.</textarea>
+                            </div>
+                        </div>
+                        <br /> <hr />
+
+                        <button type="submit" style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Kaydet </button>
+                        <button style="margin-left:10px;background-color:red;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:red"> Sil</button>
+
+                        <hr />
+                        <h5 class="modal-title">Denetim Listesi </h5><br />
+                        <div class="container">
+                            <div class="table-responsive">
+                                <table class="table">
+
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Düzenle</th>
+                                            <th scope="col">Denetim Adı</th>
+                                            <th scope="col">Denetim Tarihi</th>
+                                            <th scope="col">Durum</th>
+                                            <th scope="col">Kullanıcı</th>
+                                            <th scope="col">Ekleme Tarihi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th><button style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Düzenle </button></th>
+                                            <td>Yurt Dışı Gözetim</td>
+                                            <td>12.12.2020</td>
+                                            <td>Aktif</td>
+                                            <td>Furkan</td>
+                                            <td>10.10.2019</td>
+                                        </tr>
+                                        <tr>
+                                            <th><button style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Düzenle </button></th>
+                                            <td>Müşteri Dostu Marka Belgelendirme</td>
+                                            <td>20.11.2020</td>
+                                            <td>Aktif</td>
+                                            <td>Ayşe</td>
+                                            <td>10.10.2019</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div id="notlar_tab" class="tab-pane">
+                    <form>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label> Konu: </label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="notKonu" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Durumu: </label>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-control" id="denetimDurumu" readonly>
+                                    <option> Aktif </option>
+                                    <option> Pasif</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Açıklama: </label>
+                            </div>
+                            <div class="col-md-10">
+                                <textarea class="form-control" readonly> Türk Standardlarına Uygunluk Belgesi; Türk Standardı bulunan konularda, firmaların söz konusu ürünlerinin ilgili Türk Standardlarına uygunluğunu belirten ve akdedilen sözleşme ile TSE Markası kullanma hakkı veren, firma adına düzenlenen ve üzerlerinde TSE markası kullanılacak malların ticari markası, cinsi, sınıfı, tipi ve türünü belirten, geçerlilik süresi bir yıl  olan belgedir.</textarea>
+                            </div>
+                        </div>
+                        <br /><hr />
+                        <button type="submit" style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Kaydet </button>
+                        <button style="margin-left:10px;background-color:red;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:red"> Sil</button>
+
+                        <hr />
+                        <h5 class="modal-title">Not Listesi </h5><br />
+                        <div class="container">
+                            <div class="table-responsive">
+                                <table class="table">
+
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Düzenle</th>
+                                            <th scope="col">Konu</th>
+                                            <th scope="col">Açıklama</th>
+                                            <th scope="col">Durum</th>
+                                            <th scope="col">Kullanıcı</th>
+                                            <th scope="col">Ekleme Tarihi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th><button style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Düzenle </button></th>
+                                            <td>Müşteri Dostu Kuruluş Belgelendirme</td>
+                                            <td>1MDM MDK Proje Koordinatörlüğü</td>
+                                            <td>Aktif</td>
+                                            <td>Furkan</td>
+                                            <td>10.10.2019</td>
+                                        </tr>
+                                        <tr>
+                                            <th><button style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Düzenle </button></th>
+                                            <td>Enstitü İçi İş Sağlığı ve Güvenliği Hizmetleri</td>
+                                            <td>İş Sağlığı ve Güvenliği Müdürlüğü</td>
+                                            <td>Aktif</td>
+                                            <td>Ayşe</td>
+                                            <td>10.10.2019</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script src="~/Scripts/DateScript.js"></script>
+
+<script>
+    $(document).on("click", "#belge_tanım_open", function () {
+        $("#belge_modal").modal('hide');
+        $("#belge_tanım_modal").modal().show();
+        $("#Item2_Belge_belge_id").val("0");
+        $("#Item2_Dosya_dosya_blgs_id").val("0");
+        $("#Item2_Dosya_dosya_blgs_belge_id").val("0");
+        $("#BelgeEklenme").val( '@HttpContext.Current.User.Identity.Name | @DateTime.Now.Date.ToString("dd.MM.yyyy")' );
+        $("#Item2_Belge_belge_eklnm_trh").val( '@DateTime.Now.ToString("yyyy-MM-dd")' );
+        $("#Item2_Belge_belge_eklyn_kllnc").val('@HttpContext.Current.User.Identity.Name');
+        $("#DosyaEklenme").val( '@HttpContext.Current.User.Identity.Name | @DateTime.Now.Date.ToString("dd.MM.yyyy")' );
+        $("#Item2_Dosya_dosya_blgs_eklnm_trh").val( '@DateTime.Now.ToString("yyyy-MM-dd")' );
+        $("#Item2_Dosya_dosya_blgs_eklyn_kllnc").val( '@HttpContext.Current.User.Identity.Name' );
+    });
+    var close = document.getElementById("belge_tanım_kapat");
+    close.onclick = function () {
+        document.getElementById("BelgeForm").reset();
+        document.getElementById("DpsyaForm").reset();s
+        $("#Item2_Belge_belge_id").val(0);
+        $("#belge_tanım_modal").modal().hide();
+    }
+    $(document).on("click", ".belge_tanım_düzenle_open", async function () {
+    $("#belge_modal").modal('hide');
+    $("#belge_tanım_modal").modal().show();
+    var id = $(this).attr("data-id");
+    $.ajax({
+        url: '/Home/BelgeDuzenle/' + id,
+        type: 'POST',
+        dataType: "json",
+        success: function (result) {
+            document.getElementById("BelgeForm").reset();
+            $("#Item2_Belge_belge_adi").val(result.belge_adi);
+            $("#Item2_Belge_belge_durum").val(result.belge_durum);
+            $("#Item2_Belge_belge_acklm").val(result.belge_acklm);
+            $("#Item2_Belge_belge_belge_tipi_id").val(result.belge_belge_tipi_id);
+            $("#Item2_Belge_belge_id").val(result.belge_id);
+            var eklenme = dateConvert(result.belge_eklnm_trh);
+            $("#Item2_Belge_belge_eklnm_trh").val(eklenme);
+            $("#Item2_Belge_belge_eklyn_kllnc").val(result.belge_eklyn_kllnc);
+            $("#Item2_Belge_belge_gncllnm_trh").val( '@DateTime.Now.Date.ToString("yyyy-MM-dd")' );
+            $("#Item2_Belge_belge_gncllyn_kllnc").val('@HttpContext.Current.User.Identity.Name');
+            $("#BelgeEklenme").val(result.belge_eklyn_kllnc + " | " + eklenme);
+            var güncelleme = dateConvert(result.belge_gncllnm_trh);
+            $("#BelgeGüncellenme").val(result.belge_gncllyn_kllnc + " | " + güncelleme);
+
+            $("#DosyaEklenme").val( '@HttpContext.Current.User.Identity.Name | @DateTime.Now.Date.ToString("dd.MM.yyyy")' );
+            $("#Item2_Dosya_dosya_blgs_eklnm_trh").val( '@DateTime.Now.ToString("yyyy-MM-dd")' );
+            $("#Item2_Dosya_dosya_blgs_eklyn_kllnc").val('@HttpContext.Current.User.Identity.Name');
+            $("#Item2_Dosya_dosya_blgs_belge_id").val(result.belge_id);
+            $("#Item2_Dosya_dosya_blgs_id").val("0");
+        },
+        error: function (result) {
+            alert("AJAX HATASI");
+        }
+    });
+    $(document).on("click", ".dosya_duzenle_open", async function () {
+    var id = $(this).attr("data-id");
+    $.ajax({
+        url: '/Home/DosyaDuzenle/' + id,
+        type: 'POST',
+        dataType: "json",
+        success: function (result) {
+            document.getElementById("DosyaForm").reset();
+            $("#Item2_Dosya_dosya_blgs_belge_id").val(result.dosya_blgs_belge_id);
+            $("#Item2_Dosya_dosya_blgs_id").val(result.dosya_blgs_id);
+            $("#Item2_Dosya_dosya_blgs_aciklama").val(result.dosya_blgs_aciklama);
+            $("#Item2_Dosya_dosya_blgs_durum").val(result.dosya_blgs_durum);
+            var Dosyaeklenme = dateConvert(result.dosya_blgs_eklnm_trh);
+            $("#Item2_Dosya_dosya_blgs_eklnm_trh").val(eklenme);
+            $("#Item2_Dosya_dosya_blgs_eklyn_kllnc").val(result.dosya_blgs_eklyn_kllnc);
+            $("#Item2_Dosya_dosya_blgs_gncllnm_trh").val( '@DateTime.Now.Date.ToString("yyyy-MM-dd")' );
+            $("#Item2_Dosya_dosya_blgs_gncllyn_kllnc").val('@HttpContext.Current.User.Identity.Name');
+            $("#DosyaEklenme").val(result.dosya_blgs_eklyn_kllnc + " | " + eklenme);
+            var Dosyagüncelleme = dateConvert(result.dosya_blgs_gncllnm_trh);
+            $("#DosyaGüncellenme").val(result.dosya_blgs_gncllyn_kllnc + " | " + güncelleme);
+
+        },
+        error: function (result) {
+            alert("AJAX HATASI");
+        }
+    });
+});
+</script>
+

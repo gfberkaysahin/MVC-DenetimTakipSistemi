@@ -1,0 +1,84 @@
+﻿@using Denetim_Takip_Sistemi.Models.EntityFramework
+@using Denetim_Takip_Sistemi.ViewModels
+@model  Tuple<kullanici, BelgeFormViewModel, belge_tipi, List<belge>>
+
+<!-- Preloader Start -->
+<header>
+    <!-- Header Start -->
+    <div class="header-area">
+        <div class="main-header ">
+            <div class="header-bottom header-sticky" style="background-color:midnightblue">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-1 col-lg-1 col-md-1 header-flex">
+                            <a href="/home"><img src="~/Content/images/falcon-icon-png-1.png" style="width:40px;height:40px;margin-top:5px;" /></a>
+                        </div>
+                        <div class="col-xl-8 col-lg-8 col-md-8 header-flex">
+                            <!-- Main-menu -->
+                            <div class="main-menu d-none d-md-block">
+
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a class="button belge_liste" style="font-size:10px">Belgeler</a></li>
+                                        <li><a style="font-size:10px" class="belge_tipi_liste">Belge Tipleri</a></li>
+                                        <li><a style="font-size:10px" class="kullanıcı_liste">Kullanıcılar</a></li>
+                                        <li><a href="/takvim" style="font-size:10px">Takvim</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg3 col-md-3 header-flex">
+                            <div class="row">
+                                <img src="~/Content/images/user.jpg" style="width:40px;height:40px;border-radius:50%;margin:5px;">
+                                <span style="color:white;font-size:10px;margin-top:10px;">@HttpContext.Current.User.Identity.Name | <a href="/Security/Logout" style="font-size:10px">Logout</a></span>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Menu -->
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-md-none">
+                                <div class="slicknav_menu">
+                                    <a id="menu_control_icon" aria-haspopup="true" role="button" tabindex="0" class="slicknav_btn" style="outline: none;">
+                                        <span class="slicknav_menutxt">MENU</span>
+                                        <span class="slicknav_icon">
+                                            <span class="slicknav_icon-bar">
+                                            </span><span class="slicknav_icon-bar"></span>
+                                            <span class="slicknav_icon-bar"></span>
+                                        </span>
+                                    </a>
+                                    <ul id="ul_nav" class="slicknav_nav " style="display: none;" aria-hidden="true" role="menu">
+                                        <li><a class="button belge_liste" style="font-size:10px" role="menuitem" tabindex="-1">Belgeler</a></li>
+                                        <li><a style="font-size:10px" class="belge_tipi_liste" role="menuitem" tabindex="-1">Belge Tipleri</a></li>
+                                        <li><a style="font-size:10px" class="kullanıcı_liste" role="menuitem" tabindex="-1">Kullanıcılar</a></li>
+                                        <li><a href="/takvim" style="font-size:10px" role="menuitem" tabindex="-1">Takvim</a></li>
+                                    </ul>
+                                </div>
+                                <script>
+                                    var btn_nav = document.getElementById("menu_control_icon");
+                                    var ul_nav = document.getElementById("ul_nav");
+                                    btn_nav.onclick = function () {
+                                        if (ul_nav.style.display == "none") {
+                                            ul_nav.style.display = "block";
+                                        }
+                                        else {
+                                            ul_nav.style.display = "none";
+                                        }
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+    @Html.Partial("_Belgeler")
+    @Html.Partial("_BelgeTipleri")
+    @Html.Partial("_Kullanıcılar")
+    @Html.Partial("_BelgeTanım")
+    @Html.Partial("_KullanıcıTanım")
+    @Html.Partial("_BelgeTipiTanım")
+
+</header>

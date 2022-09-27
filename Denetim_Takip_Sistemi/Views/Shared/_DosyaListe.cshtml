@@ -1,0 +1,34 @@
+﻿@using Denetim_Takip_Sistemi.Models.EntityFramework
+@using Denetim_Takip_Sistemi.ViewModels
+@model  Tuple<kullanici, BelgeFormViewModel, belge_tipi, List<belge>>
+<h5 class="modal-title">Dosya Listesi </h5>
+<br />
+<table class="table">
+
+    <thead>
+        <tr>
+            <th scope="col">Düzenle</th>
+            <th scope="col">Dosya</th>
+            <th scope="col">Durum</th>
+            <th scope="col">Eklenme</th>
+            <th scope="col">Güncellenme</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dosya in Model.Where(u => u.dosya_blgs_belge_id == @ViewBag.BId))
+        {
+            <tr>
+                <th><button data-id="@dosya.dosya_blgs_id" class="dosya_duzenle_open" style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Düzenle </button></th>
+                <td>@dosya.dosya_blgs_dosya</td>
+                <td>@dosya.dosya_blgs_durum</td>
+                <td>@dosya.dosya_blgs_eklyn_kllnc | @dosya.dosya_blgs_eklnm_trh</td>
+                <td>@dosya.dosya_blgs_gncllyn_kllnc | @dosya.dosya_blgs_gncllnm_trh</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $(document).ready(function () {
+        document.getElementById("DosyaForm").reset();
+    });
+</script>

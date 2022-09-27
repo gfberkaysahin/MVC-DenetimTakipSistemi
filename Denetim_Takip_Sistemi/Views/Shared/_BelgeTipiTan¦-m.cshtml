@@ -1,0 +1,166 @@
+﻿@using Denetim_Takip_Sistemi.Models.EntityFramework
+@using Denetim_Takip_Sistemi.ViewModels
+@model  Tuple<kullanici, BelgeFormViewModel, belge_tipi, List<belge>>
+
+<div id="belge_tipi_tanım_modal" class="modal" style="overflow:auto">
+    <div class="modal-content" style="width:80%;margin-left:10%;margin-right:10%">
+        <div class="modal-header">
+            <h2 class="modal-title">Belge Tipi Tanım </h2><br />
+            <button type="button" id="belge_tipi_tanım_kapat" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+            @using (Ajax.BeginForm("Belge_TipiTanimKaydet", "Home", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "Belge_TipiMesaj" }, new { @id = "Belge_TipiForm", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        <label style="color:red">Belge Tipi Adı: </label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.Item3.belge_tipi_tipi, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Item3.belge_tipi_tipi)
+                    </div>
+                    <div class="col-md-2">
+                        <label style="color:red">Durumu: </label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(m => m.Item3.belge_tipi_durum, (new List<SelectListItem>() { new SelectListItem { Text = "Aktif", Selected = true, Value = "Aktif" }, new SelectListItem { Text = "Pasif", Selected = false, Value = "Pasif" } }), new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Item3.belge_tipi_durum)
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Açıklama: </label>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(m => m.Item3.belge_tipi_acklm, new { @class = "form-control" })
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Eklenme:</label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.HiddenFor(m => m.Item3.belge_tipi_eklyn_kllnc)
+                        @Html.TextBoxFor(m => m.Item3.belge_tipi_eklnm_trh, "{0:yyyy-MM-dd}", new { @type = "date", @hidden = "hidden" })
+                        <input type="text" class="form-control" id="BelgeTipiEklenme" readonly />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Güncellenme: </label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.Item3.belge_tipi_gncllnm_trh, "{0:yyyy-MM-dd}", new { @type = "date", @hidden = "hidden" })
+                        @Html.HiddenFor(m => m.Item3.belge_tipi_gncllyn_kllnc)
+                        <input type="text" class="form-control" id="BelgeTipiGüncellenme" readonly />
+                    </div>
+                </div>
+                <br /> <hr />
+                @Html.HiddenFor(m => m.Item3.belge_tipi_id)
+                <div class="row justify-content-center">
+
+                    <button type="submit" style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Kaydet </button>
+                    <button type="button" id="BelgeTipiSil" style="background-color:red;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:red;padding-left:18px;padding-right:18px;margin-left:5px;margin-right:5px"> Sil</button>
+                    <button type="button" id="belge_tipiYenile" style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue">Listeyi Yenile</button>
+
+
+                </div>
+            }
+            <div id="Belge_TipiMesaj"></div>
+            <hr />
+            <h5 class="modal-title">Belge Tipi Listesi </h5>
+            <br />
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table" id="BelgeTipiTable">
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/DateScript.js"></script>
+<script src="~/Scripts/BelgeTipiTanim.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        BelgeTipiData();
+    });
+    $(document).on("click", "#belge_tipi_tanım_open", function () {
+        $("#belge_tipi_modal").modal().hide();
+        $("#belge_tipi_tanım_modal").modal().show();
+        document.getElementById("Belge_TipiForm").reset();
+        $("#BelgeTipiEklenme").val( '@HttpContext.Current.User.Identity.Name | @DateTime.Now.Date.ToString("dd.MM.yyyy")' );
+        $("#Item3_belge_tipi_eklnm_trh").val( '@DateTime.Now.ToString("yyyy-MM-dd")' );
+        $("#Item3_belge_tipi_eklyn_kllnc").val( '@HttpContext.Current.User.Identity.Name' );
+    });
+    var close = document.getElementById("belge_tipi_tanım_kapat");
+    close.onclick = function () {
+        document.getElementById("Belge_TipiForm").reset();
+        $("#Item3_belge_tipi_id").val(0);
+        $("#belge_tipi_tanım_modal").modal().hide();
+    }
+    $(document).on("click", "#belge_tipiYenile", function () {
+        BelgeTipiData();
+    });
+
+    $(document).on("click", ".belge_tipi_tanım_düzenle_open", async function () {
+        $("#belge_tipi_modal").modal('hide');
+        $("#belge_tipi_tanım_modal").modal().show();
+        var id = $(this).attr("data-id");
+        $.ajax({
+            url: '/Home/BelgeTipiDuzenle/' + id,
+            type: 'POST',
+            dataType: "json",
+            success: function (result) {
+                document.getElementById("Belge_TipiForm").reset();
+                $("#Item3_belge_tipi_tipi").val(result.belge_tipi_tipi);
+                $("#Item3_belge_tipi_acklm").val(result.belge_tipi_acklm);
+                 $("#Item3_belge_tipi_durum").val(result.belge_tipi_durum);
+                $("#Item3_belge_tipi_id").val(result.belge_tipi_id);
+                var eklenme = dateConvert(result.belge_tipi_eklnm_trh);
+                $("#Item3_belge_tipi_eklnm_trh").val(eklenme);
+                $("#Item3_belge_tipi_eklyn_kllnc").val(result.belge_tipi_eklyn_kllnc);
+                $("#Item3_belge_tipi_gncllnm_trh").val( '@DateTime.Now.Date.ToString("yyyy-MM-dd")' );
+                $("#Item3_belge_tipi_gncllyn_kllnc").val('@HttpContext.Current.User.Identity.Name');
+                $("#BelgeTipiEklenme").val(result.belge_tipi_eklyn_kllnc + " | " + eklenme);
+                var güncelleme = dateConvert(result.belge_tipi_gncllnm_trh);
+                $("#BelgeTipiGüncellenme").val(result.belge_tipi_gncllyn_kllnc + " | " + güncelleme);
+            },
+            error: function (result) {
+                alert("AJAX HATASI");
+            }
+        });
+    });
+
+
+    $(document).on("click", "#BelgeTipiSil", function () {
+        var silId = document.getElementById("Item3_belge_tipi_id").value;
+        $.ajax({
+            url: '/Home/Belge_TipiSil/' + silId,
+            type: 'POST',
+            dataType: "json",
+            success: function (result) {
+                document.getElementById("Belge_TipiForm").reset();
+                if (result == 0) {
+                    $("#Belge_TipiMesaj").html("");
+                    $("#Belge_TipiMesaj").html('<br><div class="alert alert-danger" role ="alert" >Belge Tipi Bulunamadı.<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true" >&times;</span><span class="sr-only">Kapat</span></button></div>');
+                }
+                else if (result == 1) {
+                    $("#Belge_TipiMesaj").html("");
+                    $("#Belge_TipiMesaj").html('<br><div class="alert alert-success" role ="alert" >Belge Tipi Başarıyla Silindi.<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true" >&times;</span><span class="sr-only">Kapat</span></button></div>');
+                }
+                else if (result == -1) {
+                    $("#Belge_TipiMesaj").html("");
+                    $("#Belge_TipiMesaj").html('<br><div class="alert alert-danger" role ="alert" >Bu Belge Tipi Kullanımdadır. Silinemez!<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true" >&times;</span><span class="sr-only">Kapat</span></button></div>');
+                }
+            }
+        });
+    });
+
+</script>

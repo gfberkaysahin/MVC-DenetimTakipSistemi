@@ -1,0 +1,56 @@
+﻿@using Denetim_Takip_Sistemi.Models.EntityFramework
+@model kullanici
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/64d58efce2.js"></script>
+    <link rel="stylesheet" href="~/Content/css/yenisifre.css" />
+    <title>Yeni Şifre Oluşturma</title>
+</head>
+<body>
+    <div class="container">
+        <div class="forms-container">
+            <div class="signin-signup">
+                @using (Html.BeginForm("YeniSifre", "ForgotPassword", FormMethod.Post, new { @class = "sign-in-form", autocomplete="off" }))
+                {
+                    <h2 class="title">Yeni Parola Oluşturma</h2>
+                    <span style="color:red"> @ViewBag.Mesaj </span>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        @Html.PasswordFor(m => m.kllnc_prl, new { @type = "password", placeholder = "Parola" })
+                        @Html.ValidationMessageFor(m => m.kllnc_prl)
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        @Html.Password("ParolaTekrar", null, new { @type = "password", placeholder = "Parola Tekrar" })
+                    </div>
+                    @Html.Hidden("Id", null, new { @value = "" + @ViewBag.Id + "" })
+                    <input type="submit" value="Değiştir" class="btn_degistir" />
+                }
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panels-container">
+        <div class="panel left-panel">
+            <div class="content">
+                <h3>LOGO</h3>
+                <p>
+                    Denetim Takip Sistemi
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="app.js"></script>
+</body>
+</html>

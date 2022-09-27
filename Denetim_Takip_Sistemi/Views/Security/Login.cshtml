@@ -1,0 +1,52 @@
+﻿@using Denetim_Takip_Sistemi.Models.EntityFramework
+@model kullanici
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/64d58efce2.js"></script>
+    <link rel="stylesheet" href="~/Content/css/login.css" />
+    <title>Kullanıcı Giriş</title>
+</head>
+<body>
+    <div class="container">
+            <div class="forms-container">
+                <div class="signin-signup">
+
+                    @using (Html.BeginForm("Login", "Security", FormMethod.Post, new { @class = "sign-in-form", autocomplete="off" }))
+                    {
+                        <h2 class="title">Giriş</h2>
+                        <span style="color:red"> @ViewBag.Mesaj </span>
+                        <div class="input-field">
+                            <i class="fas fa-user"></i>
+                            @Html.TextBoxFor(m => m.kllnc_epsta, new { @type = "email", placeholder = "E-posta" })
+                        </div>
+                        <div class="input-field">
+                            <i class="fas fa-lock"></i>
+                            @Html.PasswordFor(m => m.kllnc_prl, new { @type = "password", placeholder = "Parola" })
+                        </div>
+                        <input type="submit" value="Giriş Yap" class="btn_giris" />
+                        <a href="/ForgotPassword/Index"> Parolamı Unuttum </a>
+                    }
+                </div>
+            </div>
+    </div>
+
+    <div class="panels-container">
+        <div class="panel left-panel">
+            <div class="content">
+                <h3>LOGO</h3>
+                <p>
+                    Denetim Takip Sistemi
+                </p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

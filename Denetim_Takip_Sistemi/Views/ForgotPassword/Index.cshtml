@@ -1,0 +1,48 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/64d58efce2.js"></script>
+    <link rel="stylesheet" href="~/Content/css/parolamiunuttum.css" />
+    <title>Parolamı Unuttum</title>
+</head>
+<body>
+    <div class="container">
+        <div class="forms-container">
+            <div class="signin-signup">
+                @using (Html.BeginForm("KodGonder", "ForgotPassword", FormMethod.Post, new { @class = "sign-in-form", autocomplete="off" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <h2 class="title">Parolamı Unuttum</h2>
+                    <span style="color:red"> @ViewBag.Mesaj </span>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        @Html.TextBox("Email", null, new { @type = "email", placeholder = "E-posta" })
+                    </div>
+                    <input type="submit" value="Kod Gönder" class="btn_kodiste" />
+                }
+            </div>
+
+        </div>
+    </div>
+
+    <div class="panels-container">
+        <div class="panel left-panel">
+            <div class="content">
+                <h3>LOGO</h3>
+                <p>
+                    Denetim Takip Sistemi
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="app.js"></script>
+</body>
+</html>

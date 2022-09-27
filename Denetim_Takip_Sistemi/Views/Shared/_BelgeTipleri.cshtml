@@ -1,0 +1,83 @@
+﻿
+<div id="belge_tipi_modal" class="modal">
+    <div class="modal-content" style="width:80%;margin-left:10%;margin-right:10%">
+        <div class="modal-header">
+            <h3 class="modal-title">Belge Tipi Listesi</h3>
+            <button type="button" id="belge_tipi_liste_kapat" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+            <form>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Belge Tipi Adı: </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <label>Durumu: </label>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control">
+                            <option> Aktif </option>
+                            <option> Pasif </option>
+                        </select>
+                    </div>
+                </div>
+                <br /><br />
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Açıklama: </label>
+                    </div>
+                    <div class="col-md-10">
+                        <textarea class="form-control"></textarea>
+                    </div>
+                </div>
+                <hr />
+                <div class="row justify-content-center">
+
+                    <button type="submit" style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Sorgula </button>
+                    <button id="belge_tipi_tanım_open" data-dismiss="modal" style="margin-left:10px;background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Yeni Belge Ekle </button>
+                </div>
+            </form>
+            <br /><br />
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table">
+
+                        <thead>
+                            <tr>
+
+                                <th scope="col">Düzenle</th>
+                                <th scope="col">Belge Tipi</th>
+                                <th scope="col">Açıklama</th>
+                                <th scope="col">Durum</th>
+                                <th scope="col">Ekleyen</th>
+                                <th scope="col">Ekleme Tarihi</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var btn = document.getElementsByClassName("belge_tipi_liste");
+    var i;
+    for (i = 0; i < btn.length; i++) {
+        btn[i].onclick = function () {
+            $("#belge_tipi_modal").modal('show');
+        };
+    }
+    var close = document.getElementById("belge_tipi_liste_kapat");
+    close.onclick = function () {
+        $("#belge_tipi_modal").modal().hide();
+    }
+</script>

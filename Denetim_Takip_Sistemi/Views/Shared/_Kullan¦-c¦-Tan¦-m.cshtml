@@ -1,0 +1,212 @@
+﻿@using Denetim_Takip_Sistemi.Models.EntityFramework
+@using Denetim_Takip_Sistemi.ViewModels
+@model  Tuple<kullanici,BelgeFormViewModel , belge_tipi, List<belge> >
+
+<div id="kullanıcı_tanım_modal" class="modal" style="overflow:auto">
+    <div class="modal-content" style="width:80%;margin-left:10%;margin-right:10%">
+        <div class="modal-header">
+            <h2 class="modal-title">Kullanıcı Tanım </h2><br />
+            <button type="button" id="kullanıcı_tanım_kapat" class="close" data-dismiss="modal" aria-hidden="true" >&times;</button>
+        </div>
+        <div class="modal-body">
+
+            @using (Ajax.BeginForm("KullaniciTanimKaydet", "Home", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "KullaniciMesaj" }, new { @id = "KullaniciForm", autocomplete="off" }))
+            {
+                @Html.AntiForgeryToken()
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        <label style="color:red">Kullanıcı Resim: </label>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Item1.kllnc_resim, new { @class = "form-control" , type="file"})
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        <label style="color:red">Kullanıcı Adı: </label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.Item1.kllnc_kllncad, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Item1.kllnc_kllncad)
+                    </div>
+                    <div class="col-md-2">
+                        <label style="color:red">Ad Soyad: </label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.Item1.kllnc_adi, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Item1.kllnc_adi)
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        <label style="color:red">T.C. Kimlik No: </label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.Item1.kllnc_kmlk_no, new { @class = "form-control", type = "number" })
+                        @Html.ValidationMessageFor(m => m.Item1.kllnc_kmlk_no)
+                    </div>
+                    <div class="col-md-2">
+                        <label style="color:red">Doğum Tarihi: </label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.Item1.kllnc_dgm_trh, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(m => m.Item1.kllnc_dgm_trh)
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        <label style="color:red">E-posta: </label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.Item1.kllnc_epsta, new { @class = "form-control", type = "email" })
+                        @Html.ValidationMessageFor(m => m.Item1.kllnc_epsta)
+                    </div>
+                    <div class="col-md-2">
+                        <label style="color:red">Telefon No: </label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.Item1.kllnc_cep_tel, new { @class = "form-control", type = "tel", placeholder = "Format: 123-456-7890", pattern = "[0-9]{3}-[0-9]{3}-[0-9]{4}" })
+                        @Html.ValidationMessageFor(m => m.Item1.kllnc_cep_tel)
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        <label style="color:red">Kullanıcı Rol: </label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(m => m.Item1.kllnc_rol, (new List<SelectListItem>() { new SelectListItem { Text = "Yetkin", Selected = false, Value = "Yetkin" }, new SelectListItem { Text = "Standart", Selected = true, Value = "Standart" } }), new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Item1.kllnc_rol)
+                    </div>
+                    <div class="col-md-2">
+                        <label style="color:red">Parola: </label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.PasswordFor(m => m.Item1.kllnc_prl, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Item1.kllnc_prl)
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Ekleme:</label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.HiddenFor(m => m.Item1.kllnc_eklyn_kllnc)
+                        @Html.TextBoxFor(m => m.Item1.kllnc_eklnm_trh, "{0:yyyy-MM-dd}", new { @type = "date", @hidden = "hidden" })
+                        <input type="text" class="form-control" id="KullaniciEklenme" readonly />
+                    </div>
+                    <div class="col-md-2">
+                        <label>Güncelleme:</label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.Item1.kllnc_gncllnm_trh, "{0:yyyy-MM-dd}", new { @type = "date", @hidden = "hidden" })
+                        @Html.HiddenFor(m => m.Item1.kllnc_gnclln_kllnc)
+                        <input type="text" class="form-control" id="KullaniciGüncellenme" readonly />
+                    </div>
+                </div>
+
+                <br /><hr />
+                @Html.HiddenFor(m => m.Item1.kllnc_id)
+                <div class="row justify-content-center">
+                    <button type="submit" value="submit" style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Kaydet </button>
+                    <button type="button" id="kullaniciSil" style="background-color:red;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:red;padding-left:18px;padding-right:18px;margin-left:10px;margin-right:10px;"> Sil</button>
+                    <button type="button" id="kullaniciYenile" style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue">Listeyi Yenile</button>
+                </div>
+            }
+
+            <div id="KullaniciMesaj"></div>
+            <hr />
+            <h5 class="modal-title">Kullanıcı Listesi </h5>
+            <br />
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table" id="Kullanicitable">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/DateScript.js"></script>
+<script src="~/Scripts/KullaniciTanim.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+        KullaniciData();
+    });
+$(document).on("click", "#kullanıcı_tanım_open", function () {
+    $("#kullanıcı_modal").modal('hide');
+    $("#kullanıcı_tanım_modal").modal().show();
+    $("#KullaniciEklenme").val( '@HttpContext.Current.User.Identity.Name | @DateTime.Now.Date.ToString("dd.MM.yyyy")' );
+    $("#Item1_kllnc_eklnm_trh").val( '@DateTime.Now.ToString("yyyy-MM-dd")' );
+    $("#Item1_kllnc_eklyn_kllnc").val( '@HttpContext.Current.User.Identity.Name' );
+});
+var close = document.getElementById("kullanıcı_tanım_kapat");
+close.onclick = function () {
+    document.getElementById("KullaniciForm").reset();
+    $("#Item1_kllnc_id").val(0);
+    $("#kullanıcı_tanım_modal").modal().hide();
+};
+$(document).on("click", "#kullaniciYenile", function () {
+    KullaniciData();
+});
+$(document).on("click", ".kullanıcı_tanım_düzenle_open", async function () {
+    $("#kullanıcı_modal").modal('hide');
+    $("#kullanıcı_tanım_modal").modal().show();
+    var id = $(this).attr("data-id");
+    $.ajax({
+        url: '/Home/KullaniciDuzenle/' + id,
+        type: 'POST',
+        dataType: "json",
+        success: function (result) {
+            document.getElementById("KullaniciForm").reset();
+            $("#Item1_kllnc_kllncad").val(result.kllnc_kllncad);
+            $("#Item1_kllnc_adi").val(result.kllnc_adi);
+            $("#Item1_kllnc_kmlk_no").val(result.kllnc_kmlk_no);
+            $("#Item1_kllnc_epsta").val(result.kllnc_epsta);
+            $("#Item1_kllnc_cep_tel").val(result.kllnc_cep_tel);
+            $("#Item1_kllnc_rol").val(result.kllnc_rol);
+            $("#Item1_kllnc_prl").val(result.kllnc_prl);
+            $("#Item1_kllnc_id").val(result.kllnc_id);
+            var eklenme = dateConvert(result.kllnc_eklnm_trh);
+            $("#Item1_kllnc_eklnm_trh").val(eklenme);
+            $("#Item1_kllnc_eklyn_kllnc").val(result.kllnc_eklyn_kllnc);
+            $("#Item1_kllnc_gncllnm_trh").val( '@DateTime.Now.Date.ToString("yyyy-MM-dd")' );
+            $("#Item1_kllnc_gnclln_kllnc").val('@HttpContext.Current.User.Identity.Name');
+            var date = dateConvert(result.kllnc_dgm_trh);
+            $("#Item1_kllnc_dgm_trh").val(date);
+            $("#KullaniciEklenme").val(result.kllnc_eklyn_kllnc + " | " + eklenme);
+            var güncelleme = dateConvert(result.kllnc_gncllnm_trh);
+            $("#KullaniciGüncellenme").val(result.kllnc_gnclln_kllnc +" | "+ güncelleme);
+        },
+        error: function (result) {
+            alert("AJAX HATASI");
+        }
+    });
+});
+$(document).on("click", "#kullaniciSil", function () {
+    var silId = document.getElementById("Item1_kllnc_id").value;
+    $.ajax({
+        url: '/Home/KullaniciSil/' + silId,
+        type: 'POST',
+        dataType: "json",
+        success: function (result) {
+            document.getElementById("KullaniciForm").reset();
+            if (result == 0) {
+                $("#KullaniciMesaj").html("");
+                $("#KullaniciMesaj").html('<br><div class="alert alert-danger" role ="alert" >Kullanıcı Bulunamadı.<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true" >&times;</span><span class="sr-only">Kapat</span></button></div>');
+            }
+            else if (result == 1) {
+                $("#KullaniciMesaj").html("");
+                $("#KullaniciMesaj").html('<br><div class="alert alert-success" role ="alert" >Kullanıcı Başarıyla Silindi.<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true" >&times;</span><span class="sr-only">Kapat</span></button></div>');
+            }
+        }
+    });
+});
+
+</script>

@@ -1,0 +1,84 @@
+﻿
+<div id="kullanıcı_modal" class="modal">
+    <div class="modal-content" style="width:80%;margin-left:10%;margin-right:10%">
+        <div class="modal-header">
+            <h3 class="modal-title">Kullanıcı Liste</h3>
+            <button type="button" id="kullanıcı_liste_kapat" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+            <form>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Kullanıcı Adı: </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="kullanıcıAdı">
+                    </div>
+                    <div class="col-md-2">
+                        <label>Adı Soyadı: </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="adSoyad">
+                    </div>
+                </div>
+                <br /><br />
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Email: </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="email" class="form-control" id="email">
+                    </div>
+                    <div class="col-md-2">
+                        <label>T.C. Kimlik No: </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="tcNo">
+                    </div>
+                </div>
+                <hr />
+                <div class="row justify-content-center">
+                    <button style="background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Search </button>
+                    <button id="kullanıcı_tanım_open" data-dismiss="modal" style="margin-left:10px;background-color:deepskyblue;width:auto;height:30px;border-radius:5px;color:white;padding:2px;border-color:deepskyblue"> Yeni Kullanıcı Ekle </button>
+                </div>
+            </form>
+            <br /><br />
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table">
+
+                        <thead>
+                            <tr>
+                                <th scope="col">Düzenle</th>
+                                <th scope="col">Kullanıcı Adı</th>
+                                <th scope="col">Adı Soyadı</th>
+                                <th scope="col">E-mail</th>
+                                <th scope="col">T.C Kimlik No</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody> 
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var btn = document.getElementsByClassName("kullanıcı_liste");
+    var i;
+    for (i = 0; i < btn.length; i++) {
+        btn[i].onclick = function () {
+            $("#kullanıcı_modal").modal('show');
+        };
+    }
+    var close = document.getElementById("kullanıcı_liste_kapat");
+    close.onclick = function () {
+        $("#kullanıcı_modal").modal().hide();
+    }
+</script>
